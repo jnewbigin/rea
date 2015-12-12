@@ -7,7 +7,6 @@ define sinatra::deploy($dir = $name) {
 			Package['rubygem-bundler'],
 			Class['web_server::passenger'],
 		],
-		# we can get notified when the dir changes and only build then
 	} ->
 	file { "$dir/public":
 		ensure => directory,
