@@ -13,11 +13,12 @@ define sinatra::deploy($dir = $name, $url = "/") {
 	} ->
 	file { "$dir/tmp":
 		ensure => directory,
-	} 
+	}
 	if($url == "/") {
 		# patch into the web server config
 		web_server::document_root{"$dir/public": 
 			notify => Service['httpd'],
+			require => File["$dir/public"],
 		} 
 	} else {
 		print{"Non-root URL is NYI": }
