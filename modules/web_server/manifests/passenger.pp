@@ -1,5 +1,8 @@
-# Install and configure mod_passenger
+# Install and configure mod_passenger addon for apache
+# Auther: John Newbigin
 
+# Install the passenger yum repository as per
+# https://www.phusionpassenger.com/library/install/apache/install/oss/el7/
 class web_server::passenger::repo {
 	exec { "Add passenger repo":
 		command => "/usr/bin/curl --fail -sSLo /etc/yum.repos.d/passenger.repo https://oss-binaries.phusionpassenger.com/yum/definitions/el-passenger.repo",
@@ -7,23 +10,10 @@ class web_server::passenger::repo {
 	}
 }
 
-#define gem() {
-#	exec { "install gem $name":
-#		command => "/usr/bin/gem install $name",
-#		requires => Package['gem'],
-#	}
-#}
-
-class web_server::passenger::rails {
-#	gem { "rails": }
-}
-
-#DocumentRoot "/var/www/sinatra/public"
-#RailsEnv development
-
+# Install the required packages
+# will also enable EPEL and passenger repos
 class web_server::passenger::install {
 	include web_server::passenger::repo
-	include web_server::passenger::rails
 
 	package { "epel-release": ensure => present, }
 	package { "pygpgme": ensure => present, }
@@ -44,14 +34,5 @@ class web_server::passenger::install {
 
 class web_server::passenger {
         include web_server::passenger::install
-
-        #file { "/etc/httpd/conf.d/passenger.conf":
-        #        ensure => present,
-        #        owner => 'root',
-        #        group => 'root',
-        #        mode => 0644,
-        #        source => "puppet:///modules/web_server/passenger.conf",
-        #        require => Class['web_server::install'],
-        #}
 }
 

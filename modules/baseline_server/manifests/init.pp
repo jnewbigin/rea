@@ -1,3 +1,6 @@
+# Configure this node to act as a server
+# Author: John Newbigin
+#
 class baseline_server {
 	print{ "Configuring baseline server": }
 	# CentOS-7 is pretty much locked down out of the box

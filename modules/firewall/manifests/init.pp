@@ -1,4 +1,5 @@
 # Manage the firewall daemon and rulles
+# Author: John Newbigin
 
 # Configure to allow a pre-defined service on the specified zone
 define firewall::allow_service($service = $name, $zone = "public") {
@@ -18,6 +19,7 @@ class firewall::apply {
 	}
 }
 
+# Register the apply class
 class firewall {
 	include firewall::apply
 }

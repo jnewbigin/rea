@@ -1,3 +1,6 @@
+# manage a local apache web server (httpd)
+# Author: John Newbigin
+
 # Add or update a web server directive
 define web_server::directive($directive = $name, $value, $file = "/etc/httpd/conf/httpd.conf") {
         augeas { "web_server::directive $name add":
@@ -8,6 +11,7 @@ define web_server::directive($directive = $name, $value, $file = "/etc/httpd/con
                 ],
                 onlyif => "match directive[. = '$directive']/arg size == 0",
                 require => Package['httpd'],
+		notify => Service['httpd'],
         } ->
         augeas { "web_server::directive $name update":
                 context => "/files$file",
@@ -15,6 +19,7 @@ define web_server::directive($directive = $name, $value, $file = "/etc/httpd/con
                         "set directive[. = '$directive']/arg '$value'",
                 ],
                 require => Package['httpd'],
+		notify => Service['httpd'],
         }
 }
 
@@ -25,16 +30,19 @@ define web_server::document_root() {
 	}
 }
 
+# Install the required packages
 class web_server::install {
 	package{ "httpd": 	ensure => latest, }
 	package{ "httpd-tools": ensure => latest, }
 }
 
+# Open the firewall
 class web_server::firewall {
 	firewall::allow_service {"http":
 	}
 }
 
+# Ensure the service is enabled and running
 class web_server::service {
         service { "httpd":
                 ensure => running,
@@ -45,6 +53,7 @@ class web_server::service {
         }
 }
 
+# No default config is required ATM
 class web_server::config {
 }
 

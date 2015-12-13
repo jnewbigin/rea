@@ -1,4 +1,5 @@
 # Deploy the hello_world app
+# Author: John Newbigin
 
 class app_hello_world {
 	$git = "https://github.com/tnh/simple-sinatra-app.git"
