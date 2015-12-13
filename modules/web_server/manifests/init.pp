@@ -31,6 +31,8 @@ class web_server::install {
 }
 
 class web_server::firewall {
+	firewall::allow_service {"http":
+	}
 }
 
 class web_server::service {
