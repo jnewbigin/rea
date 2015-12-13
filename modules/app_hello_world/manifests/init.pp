@@ -1,3 +1,4 @@
+# Deploy the hello_world app
 
 class app_hello_world {
 	$git = "https://github.com/tnh/simple-sinatra-app.git"
@@ -7,6 +8,7 @@ class app_hello_world {
 	git::clone{$module_name:
 		url => $git,
 		destination => $dir,
+		require => Package['httpd'], # Make sure httpd is installed first so we get to correct SElinux context
 	} ->
 	sinatra::deploy{$module_name:
 		dir => $dir,
