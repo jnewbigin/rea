@@ -1,6 +1,10 @@
 # module git
 # A collection of types to help manage git repositories
+# Author: John Newbigin
 
+# Ensure that git is installed
+# This is included by types that require it so if it is
+# not needed it will not be installed
 class git::install {
 	package { "git": ensure => present, }
 }
@@ -12,7 +16,7 @@ define git::clone($url, $destination, $branch = "master") {
 	include git::install
 	exec { "git clone $name":
 		command => "/usr/bin/git clone -b '$branch' '$url' '$destination'",
-		creates => $destination,
+		creates => "$destination/.git",
 		require => Package['git'],
 	} 
 }
@@ -28,4 +32,6 @@ define git::pull($destination = $name, $repository = "origin", $refspec = "maste
 }
 
 class git {
+	# nothing to do here
 }
+
