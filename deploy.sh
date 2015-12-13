@@ -7,7 +7,9 @@
 # Written for and tested on CentOS-7 minimal install
 # You must enable the network:
 #  nmcli con add ifname eth0 type ethernet
-# you will probably do that to get this script on
+# you will probably do that to get this script on but if not we will do it now
+nm-online -t 5 || nmcli con add ifname eth0 type ethernet
+nm-online 
 
 # Install puppet yum repository
 # (ideal world, puppet is in our localally controlled rpm repo)
