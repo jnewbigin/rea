@@ -1,4 +1,4 @@
-define sinatra::deploy($dir = $name) {
+define sinatra::deploy($dir = $name, $url = "/") {
 	include web_server::passenger
 	exec { "bundle $name":
 		cwd => $dir,
@@ -13,8 +13,13 @@ define sinatra::deploy($dir = $name) {
 	} ->
 	file { "$dir/tmp":
 		ensure => directory,
+	} 
+	if($url == "/") {
+		# patch into the web server config
+		web_server::document_root{$dir: } 
+	} else {
+		print{"Non-root URL is NYI": }
 	}
-	# patch into the web server config
 }
 
 class sinatra {

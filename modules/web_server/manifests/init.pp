@@ -1,3 +1,29 @@
+# Add or update a web server directive
+define web_server::directive($directive = $name, $value, $file = "/etc/httpd/conf/httpd.conf") {
+        augeas { "web_server::directive $name add":
+                context => "/files$file",
+                changes => [
+                        "set directive[last() +1] '$directive'",
+                        "set directive[last()]/arg '$value'",
+                ],
+                onlyif => "match directive[. = '$directive']/arg size == 0",
+                require => Package['httpd'],
+        } ->
+        augeas { "web_server::directive $name update":
+                context => "/files$file",
+                changes => [
+                        "set directive[. = '$directive']/arg '$value'",
+                ],
+                require => Package['httpd'],
+        }
+}
+
+# Set the document root for the main web server
+define web_server::document_root() {
+	directive{ "DocumentRoot":
+		value => $name,
+	}
+}
 
 class web_server::install {
 	package{ "httpd": 	ensure => latest, }
