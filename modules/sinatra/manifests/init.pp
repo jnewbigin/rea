@@ -16,7 +16,7 @@ define sinatra::deploy($dir = $name, $url = "/") {
 	} 
 	if($url == "/") {
 		# patch into the web server config
-		web_server::document_root{$dir: 
+		web_server::document_root{"$dir/public": 
 			notify => Service['httpd'],
 		} 
 	} else {
