@@ -12,7 +12,7 @@ rpm -q puppet || yum -y install puppet
 
 # mod_passenger requires this latest selinux-policy patch which is not released yet
 # (should download to our local repo)
-rpm -q selinux-policy-3.13.1-60.el7 || yum -y install http://buildlogs.centos.org/c7.1511.00/selinux-policy/20151120104451/3.13.1-60.el7.x86_64/selinux-policy-3.13.1-60.el7.noarch.rpm
+rpm -q selinux-policy-3.13.1-60.el7 || yum -y update http://buildlogs.centos.org/c7.1511.00/selinux-policy/20151120104451/3.13.1-60.el7.x86_64/selinux-policy-3.13.1-60.el7.noarch.rpm http://buildlogs.centos.org/c7.1511.00/selinux-policy/20151120104451/3.13.1-60.el7.x86_64/selinux-policy-targeted-3.13.1-60.el7.noarch.rpm
 
 if [ -x /usr/bin/puppet ] ; then
    # clean up incase there was a failed attempt
