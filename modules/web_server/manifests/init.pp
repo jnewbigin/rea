@@ -8,13 +8,13 @@ class web_server::firewall {
 }
 
 class web_server::service {
-        #service { "httpd":
-        #        ensure => running,
-        #        hasstatus => true,
-        #        hasrestart => true,
-        #        enable => true,
-        #        require => Class["web_server::config"],
-        #}
+        service { "httpd":
+                ensure => running,
+                hasstatus => true,
+                hasrestart => true,
+                enable => true,
+                require => Class["web_server::config"],
+        }
 }
 
 class web_server::config {
